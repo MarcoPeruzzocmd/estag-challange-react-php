@@ -3,8 +3,8 @@ $productController = new ProductController($myPDO);
 
 switch ($method) {
     case 'GET':
-        if (isset($code)) {
-            $product = $productController->getProductByCode($code);
+        if ($id) {
+            $product = $productController->getProductByCode($id);
             if ($product) {
                 echo json_encode($product);
             } else {
@@ -12,29 +12,31 @@ switch ($method) {
                 echo json_encode(['error' => 'Produto não encontrado']);
             }
         } else {
-            $products = $productController->indexProducts();
-            echo json_encode($products);
+            echo json_encode($productController->indexProducts());
         }
         break;
+
     case 'POST':
-        $data = json_decode(file_get_contents('php://input'), true);
+        $body = json_decode(file_get_contents('php://input'), true);
         $productController->createProduct(
-            $data['name'] ?? '',
-            $data['amount'] ?? '',
-            $data['price'] ?? '',
-            $data['category_code'] ?? ''
+            $body['name'] ?? '',
+            $body['amount'] ?? '',
+            $body['price'] ?? '',
+            $body['category_code'] ?? ''
         );
         echo json_encode(['success' => 'Produto criado']);
         break;
+
     case 'DELETE':
-        if (!isset($code)) {
+        if (!$id) {
             http_response_code(400);
-            echo json_encode(['error' => 'Código obrigatório']);
+            echo json_encode(['error' => 'ID obrigatório']);
             break;
         }
-        $productController->deleteProduct(($code));
+        $productController->deleteProduct($id);
         echo json_encode(['success' => 'Produto deletado']);
         break;
+
     default:
         http_response_code(405);
         echo json_encode(['error' => 'Método não permitido']);

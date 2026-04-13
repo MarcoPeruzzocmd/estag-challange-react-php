@@ -9,23 +9,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 require_once '../connection.php';
+require_once  '../controllers/CategoryController.php';
+require_once  '../controllers/ProductController.php';
+require_once  '../controllers/DetailController.php';
+require_once  '../controllers/OrderItemController.php';
+require_once  '../controllers/OrdersController.php';
+
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $segments = explode('/', trim($uri, '/'));
-$resource = $segments[1] ?? null;
-$id = $segments[2] ?? null;
-
+$resource = strtolower($segments[2] ?? null);
+$code = $segments[3] ?? null;
+$method = $_SERVER['REQUEST_METHOD'];
 switch ($resource) {
-    case 'OrderItem';
-        require_once 'OrderItem.php';
+    case 'orderitem':
+        require_once '../routes/OrderItem.php';
         break;
-    case 'Order';
-        require_once 'Order.php';
+    case 'order':
+        require_once '../routes/Order.php';
         break;
-    case 'Product';
-        require_once 'Product.php';
+    case 'product':
+        require_once '../routes/Product.php';
         break;
-    case 'Category';
-        require_once 'Category.php';
+    case 'category':
+        require_once __DIR__ . '/../routes/Category.php';
         break;
     default:
         http_response_code(404);
