@@ -34,9 +34,7 @@ class OrderItemController
     public function createOrderItem($productCode, $amount)
     {
         if (empty($productCode) || empty($amount)) {
-            $_SESSION['error'] = 'Preencha todos os campos antes de adicionar ao carrinho.';
-            header("Location: index.php");
-            exit();
+            return 'Preencha todos os campos antes de adicionar ao carrinho.';
         }
 
         $existingOrderItem = $this->existingOrderItem($productCode);
@@ -48,9 +46,7 @@ class OrderItemController
         if ($existingOrderItem) {
 
             if ($product['amount'] < $amount) {
-                $_SESSION['error'] = "Estoque insuficiente. Disponível: {$product['amount']}.";
-                header("Location: index.php");
-                exit();
+                return "Estoque insuficiente. Disponível: {$product['amount']}.";
             }
             $newAmount = $existingOrderItem['amount'] + $amount;
             $newPrice = $existingOrderItem['price'] + ($price * $amount);
@@ -61,16 +57,13 @@ class OrderItemController
 
             $sql = "UPDATE products SET amount = amount - ? WHERE code = ?";
             $this->OrderItem->getPDO()->prepare($sql)->execute([$amount, $productCode]);
-
-            header("Location: index.php");
-            exit();
         }
 
         $this->OrderItem->createOrder($productCode, $amount);
     }
     public function deleteOrderItem($code)
     {
-        $this->OrderItem->deleteOrderItem($code);
+        return $this->OrderItem->deleteOrderItem($code);
     }
     public function finishOrder()
     {
@@ -82,6 +75,6 @@ class OrderItemController
     }
     public function cancelOrder()
     {
-        $this->OrderItem->cancelOrder();
+        return $this->OrderItem->cancelOrder();
     }
 }

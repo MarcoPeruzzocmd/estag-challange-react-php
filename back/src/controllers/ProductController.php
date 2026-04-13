@@ -18,39 +18,25 @@ class ProductController {
     }
     public function createProduct($name, $amount, $price, $category) {
         if (!preg_match('/^[a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ0-9\s]*$/', $name)){
-            $_SESSION['error'] = 'O primeiro caractere precisa obrigatoriamente ser uma letra.';
-            header("Location: product.php");
-            exit();
+           return 'O primeiro caractere precisa obrigatoriamente ser uma letra.';
         }
         if ($amount > 100000) {
-            $_SESSION['error'] = 'A quantidade do produto deve ser de no máximo 100000 unidades';
-            header('Location: product.php');
-            exit();
+            return 'A quantidade do produto deve ser de no máximo 100000 unidades';
         } 
         if (empty($name) || empty($amount) || empty($price) || empty($category)) {
-            $_SESSION['error'] = 'Preencha todos os campos possíveis.';
-            header("Location: product.php");
-            exit();
+            return 'Preencha todos os campos possíveis.';
         }
         if (!is_numeric($amount) || $amount < 0) {
-            $_SESSION['error'] = 'O campo de quantidade deve ser um número positivo';
-            header("Location: product.php");
-            exit();
+            return'O campo de quantidade deve ser um número positivo';
         }
         if (!is_numeric($price) || $price < 0) {
-            $_SESSION['error'] = 'O campo de preço deve ser um número positivo';
-            header("Location: product.php");
-            exit();
+            return 'O campo de preço deve ser um número positivo';
         }
         if (strlen($name) > 30) {
-            $_SESSION['error'] = 'O nome do produto deve ter no mínimo 30 caracteres.';
-            header("Location: product.php");
-            exit();
+            return 'O nome do produto deve ter no mínimo 30 caracteres.';
         }
         if ($this->existProduct($name)) {
-            $_SESSION['error'] = 'Esse produto já existe.';
-            header("Location: product.php");
-            exit();
+            return 'Esse produto já existe.';
         }
         $this->product->createProduct($name, $amount, $price, $category);
     }
@@ -61,9 +47,7 @@ class ProductController {
         $categories = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         if(!empty($categories)){
-            $_SESSION['error'] = 'Esse produto não pode ser deletado pois já está associado a um carrinho ou compra';
-            header("Location: product.php");
-            exit();
+            return 'Esse produto não pode ser deletado pois já está associado a um carrinho ou compra';
         }
         $this->product->deleteProduct($code);
 

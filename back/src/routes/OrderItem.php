@@ -1,0 +1,33 @@
+<?php
+$orderItemController = new OrderItemController($myPDO);
+
+switch ($method) {
+    case 'GET':
+        echo json_encode($orderItemController->indexOrderItem());
+        break;
+    case 'POST':
+        $data = json_decode(file_get_contents('php://input'), true);
+        $result = $orderItemController->createOrderItem(
+            $data['product_code'] ?? '',
+            $data['amount'] ?? ''
+        );
+        if (isset($result['error'])) {
+            http_response_code(400);
+        } else {
+            http_response_code(201);
+        }
+        echo json_encode($result);
+        break;
+    case 'DELETE':
+        if (isset($code)) {
+            $result = $orderItemController->deleteOrderItem($code);
+            echo json_encode($result);
+        } else {
+            $result = $orderItemController->cancelOrder();
+            echo json_encode($result);
+        }
+        break;
+    default:
+        http_response_code(405);
+        echo json_encode(['error' => 'Método não permitido']);
+}

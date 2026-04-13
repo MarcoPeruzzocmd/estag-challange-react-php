@@ -33,6 +33,9 @@ switch ($resource) {
     case 'category':
         require_once __DIR__ . '/../routes/Category.php';
         break;
+    case 'detail':           
+        require_once '../routes/Detail.php';
+        break;
     default:
         http_response_code(404);
         echo json_encode(['error' => 'Resource not found']);

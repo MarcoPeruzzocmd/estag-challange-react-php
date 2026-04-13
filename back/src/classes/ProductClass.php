@@ -16,8 +16,6 @@ class Product {
         $display_code = $this->getNextDisplayCode();
         $sql = "INSERT INTO products (display_code, name, amount, price, category_code) VALUES (?,?,?,?,?)";
         $this->myPDO->prepare($sql)->execute([$display_code, $name, $amount, $price, $category]);
-        header("Location: product.php");
-        exit();
     }
     public function getProducts(){
         $sql = "SELECT * FROM products ORDER BY display_code ASC";
@@ -32,7 +30,5 @@ class Product {
     public function deleteProduct($code){
         $sql = "DELETE FROM products WHERE code = ?";
         $this->myPDO->prepare($sql)->execute([$code]);
-        header("Location: product.php");
-        exit();
     }
 };

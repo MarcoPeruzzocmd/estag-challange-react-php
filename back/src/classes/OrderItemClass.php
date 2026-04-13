@@ -25,8 +25,6 @@ class OrderItem
 
         if ($product['amount'] < $amount) {
             $_SESSION['error'] = "Estoque insuficiente para {$product['name']}. Disponível: {$product['amount']}.";
-            header("Location: index.php");
-            exit();
         }
 
         $sql = "SELECT price FROM products WHERE code = ?";
@@ -43,8 +41,6 @@ class OrderItem
         $this->myPDO->prepare($sql)->execute([$display_code, $productCode, $amount, $price, $tax]);
 
         $this->decrementAmount($productCode, $amount);
-        header("Location: index.php");
-        exit();
     }
     public function getNextDisplayCode(){
         $sql =  "SELECT MAX(display_code) FROM order_item";
@@ -70,8 +66,6 @@ class OrderItem
         }
         $sql = "DELETE FROM order_item WHERE code = ?";
         $this->myPDO->prepare($sql)->execute([$code]);
-        header("Location: index.php");
-        exit();
     }
     public function calculateTotalAndTax()
     {
@@ -102,8 +96,8 @@ class OrderItem
         $orderCode = $statement->fetch(PDO::FETCH_ASSOC)['code'];
         $sql = "UPDATE order_item SET order_code = ? WHERE order_code IS NULL";
         $this->myPDO->prepare($sql)->execute([$orderCode]);
-        header("Location: history.php");
-        exit();
+        return ['success' => 'Pedido finalizado', 'order_code' => $orderCode];
+
     }
     public function cancelOrder(){
         $sql =  "SELECT product_code, amount FROM order_item WHERE order_code IS NULL";
@@ -115,6 +109,5 @@ class OrderItem
         }
         $sql = "DELETE FROM order_item WHERE order_code IS NULL";
         $this->myPDO->prepare($sql)->execute();
-        header("Location: index.php");
     }
 }
