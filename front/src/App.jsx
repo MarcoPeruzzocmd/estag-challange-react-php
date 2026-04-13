@@ -1,14 +1,23 @@
 import Nav from "./components/basics/Nav";
-import Form from "./components/Form";
-import Condicional from "./components/Condicional";
-import Lista from "./components/Lista";
+import Home from "./components/Home";
+import Contato from "./components/Contato";
+import Empresa from "./components/Empresa";
+import {useState} from 'react'
+import {BrowserRouter as Router, Switch, Routes, Route,Link} from 'react-router-dom'
 function App() {
-  const array = ['React', 'Vue', 'Angular'] 
   return (
-    <div className="App">
-      <h1>Rederização de listas</h1>
-      <Lista itens={array}/>
-  </div>
+    <Router>
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/empresa">Empresa</Link></li>
+        <li><Link to="/contato">Contato</Link></li>
+      </ul>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/empresa" element={<Empresa />} />
+        <Route path="/contato" element={<Contato />} />
+      </Routes>
+    </Router>
 );
 }
 
