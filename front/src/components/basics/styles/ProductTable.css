@@ -1,0 +1,72 @@
+.container {
+    display: flex;
+    width: 100%;
+    height: 80vh;
+}
+.product-table-form{
+    width: 50%;
+    height: 100%;
+    margin-top: 20px;
+    border-left: 1px solid rgba(0, 0, 0, 0.5);
+}
+.containerTable{
+    max-width: 100%;
+}
+.tableCart.scrollable {
+    max-height: 50vh;
+    overflow-y: auto;
+}
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+td{
+    border-bottom: 1px solid #C5C5C5;
+    height: 25px;
+    padding: 4px;
+}
+th{
+    border-bottom: 1px solid #C5C5C5;
+    text-align: start;
+    padding: 4px;
+}
+
+.thProduct{
+    width: 35%;
+}
+.thAmount{
+    width: 18%;
+}
+.thTotal{
+    width: 13%;
+}
+.thPrice{
+    width: 15%;
+}
+.thTax{
+    width: 15%;
+}
+#line1,#line2{
+    position: relative;
+}
+#line1::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  height: 60vh;
+  border-left: 1px solid  #C5C5C5;
+}
+ 
+#line2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 60vh;
+  border-left: 1px solid  #C5C5C5;
+  border-right: 1px solid  #C5C5C5;
+}
+.tdButton1{
+    display: flex;
+    align-items: center;
+}
