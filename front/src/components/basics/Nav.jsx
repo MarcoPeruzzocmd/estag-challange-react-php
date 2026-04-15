@@ -1,4 +1,6 @@
 import './styles/Nav.css'
+import { Link } from "react-router-dom";
+
 function Nav() {
     return(
         <nav className="menu">
@@ -9,7 +11,7 @@ function Nav() {
                 </a>
             </li>
             <div className="links">
-                <li><a href="product.php">Products</a></li>
+                <li><Link to="/products"><a>Products</a></Link></li>
                 <li><a href="category.php">Categories</a></li>
                 <li><a href="history.php">History</a></li>
             </div>

@@ -4,13 +4,13 @@
     height: 80vh;
 }
 .product-table-form{
-    width: 50%;
     height: 100%;
     margin-top: 20px;
     border-left: 1px solid rgba(0, 0, 0, 0.5);
 }
 .containerTable{
     max-width: 100%;
+    flex: 1;
 }
 .tableCart.scrollable {
     max-height: 50vh;
@@ -19,6 +19,7 @@
 table{
     width: 100%;
     border-collapse: collapse;
+    margin-left: 20px;
 }
 td{
     border-bottom: 1px solid #C5C5C5;
@@ -30,22 +31,12 @@ th{
     text-align: start;
     padding: 4px;
 }
-
-.thProduct{
-    width: 35%;
-}
-.thAmount{
-    width: 18%;
-}
-.thTotal{
-    width: 13%;
-}
-.thPrice{
-    width: 15%;
-}
-.thTax{
-    width: 15%;
-}
+.thCode { width: 10%; }
+.thProduct { width: 20%; }
+.thAmount { width: 15%; }
+.thPrice { width: 20%; }
+.thCategory { width: 20%; }
+.thActions { width: 15%; }
 #line1,#line2{
     position: relative;
 }

@@ -1,7 +1,7 @@
 import DataTable from "../basics/DataTable";
 function ProductTable({ products, onDelete }) {
   return (
-    <div className="containerTable" style={{ marginLeft: "20px" }}>
+    <div className="containerTable">
 
         <DataTable
           columns={[
