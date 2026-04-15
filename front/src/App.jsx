@@ -1,6 +1,7 @@
 import Nav from "./components/basics/Nav";
 import Products from "./components/pages/Products";
 import Category from "./components/pages/Category";
+import Home from "./components/pages/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Router>
         <Nav />
         <Routes>
+          <Route path="/" element={<Home/>}/>
           <Route path="/products" element={<Products />} />
           <Route path="/categories" element={<Category/>}/>
         </Routes>

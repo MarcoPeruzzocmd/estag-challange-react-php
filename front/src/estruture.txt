@@ -1,0 +1,29 @@
+src/
+├── components/
+│   ├── shared/
+│   │   ├── Navbar.jsx          ← navegação (igual em todas as páginas)
+│   │   └── DataTable.jsx       ← tabela genérica reutilizável
+│   │
+│   ├── home/
+│   │   ├── CartForm.jsx        ← formulário de adicionar ao carrinho (select + inputs)
+│   │   └── CartTable.jsx       ← tabela do carrinho + totais + botões finish/cancel
+│   │
+│   ├── products/
+│   │   ├── ProductForm.jsx     ← formulário de cadastro de produto
+│   │   └── ProductTable.jsx    ← tabela de produtos
+│   │
+│   ├── categories/
+│   │   ├── CategoryForm.jsx    ← formulário de cadastro de categoria
+│   │   └── CategoryTable.jsx   ← tabela de categorias
+│   │
+│   └── history/
+│       └── HistoryTable.jsx    ← tabela de histórico de pedidos
+│
+├── pages/
+│   ├── Home.jsx                ← monta CartForm + CartTable
+│   ├── Products.jsx            ← monta ProductForm + ProductTable
+│   ├── Categories.jsx          ← monta CategoryForm + CategoryTable
+│   └── History.jsx             ← monta HistoryTable
+│
+├── styles/                     ← seus CSS existentes
+└── App.jsx                     ← rotas (React Router)
