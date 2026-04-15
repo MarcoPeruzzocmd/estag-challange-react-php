@@ -1,7 +1,7 @@
 import "./styles/ProductTable.css";
 function DataTable({ columns, rows, onDelete }) {
   return (
-      <form action="" className="product-table-form" >
+      <form action="" className="tableProduct" >
         <div className="containerTable">
           <table>
             <thead>

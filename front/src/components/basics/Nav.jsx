@@ -12,7 +12,7 @@ function Nav() {
             </li>
             <div className="links">
                 <li><Link to="/products"><a>Products</a></Link></li>
-                <li><a href="category.php">Categories</a></li>
+                <li><Link to="/categories"><a>Categories</a></Link></li>
                 <li><a href="history.php">History</a></li>
             </div>
         </ul>
