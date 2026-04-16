@@ -31,7 +31,6 @@
     height: 20px;
 }
 
-.product1:hover .delete1,
 .product1:hover .detail1 {
     visibility: visible;
 }
