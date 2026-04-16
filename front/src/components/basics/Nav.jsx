@@ -24,7 +24,7 @@ function Nav() {
             </Link>
           </li>
           <li>
-            <a href="history.php">History</a>
+            <Link to="/history"><a>History</a></Link>
           </li>
         </div>
       </ul>
