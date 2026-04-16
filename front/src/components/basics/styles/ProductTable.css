@@ -28,11 +28,12 @@ th {
 }
 .thCode     { width: 10%; }
 .thProduct  { width: 20%; }
-.thAmount   { width: 15%; }
-.thPrice    { width: 20%; }
+.thAmount   { width: 13%; }
+.thPrice    { width: 17%; }
 .thCategory { width: 20%; }
 .thActions  { width: 15%; }
-.thTax {width: 10%;}
+.thTax {width: 13%;}
+.thTotal{width: 15%;}
 #line1, #line2 {
     position: relative;
 }

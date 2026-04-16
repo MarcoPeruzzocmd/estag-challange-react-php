@@ -1,0 +1,67 @@
+.fCart {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.fCart>input, select {
+    width: 95%;
+    height: 24px;
+    border-radius: 5px;
+    border: 0.5px solid black;
+    padding: 1.5px;
+}
+
+.fCart>button {
+    width: 95%;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    background-color: #6A65FF;
+    cursor: pointer;
+}
+.inputCima{
+    width: 95%;
+    display: flex;
+    align-items: center;
+ 
+}
+.inputCima > select{
+    border-radius: 5px;
+    border: 0.5px black solid;
+    padding: 1px;
+    width: 100%;
+    height: 24px;
+}
+.inputBaixo {
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    border-radius: 5px;
+}
+.inputBaixo > input{
+    padding: 3px;
+    height: 20px;
+}
+.amountInput {
+    width: 50%;
+    border-radius: 5px;
+    border: 0.5px solid black;
+}
+
+.priceInput {
+    width: 25%;
+    border-radius: 5px;
+    border: 1px solid #C5C5C5;
+}
+
+.taxInput {
+    width: 25%;
+    border-radius: 5px;
+    border: 1px solid #C5C5C5;
+}

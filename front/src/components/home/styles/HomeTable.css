@@ -1,0 +1,46 @@
+.finalCart{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.bottomCart{
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+
+}
+
+.pTax{
+    display: flex;
+    gap: 3px;
+    align-items: center;
+}
+.pTotal{
+    display: flex;
+    margin-top: 5px;
+    gap: 3px;
+    align-items: center;
+}
+
+.buttonsCart{
+    margin:20px 10px;
+    display: flex;
+    gap: 10px;
+}
+.buttonsCart > button{
+    width: 150px;
+    border-radius: 5px;
+    border: none;
+    height: 25px;
+    cursor: pointer;
+}
+.cancel{
+    background-color: #C5C5C5;
+}
+.finish{
+    background-color: #6A65FF;
+}

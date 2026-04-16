@@ -20,10 +20,10 @@
     border: 0.5px black solid;
 }
 .categoriesInput{
-    width: 50%;
+    width: 75%;
 }
 .taxInput{
-    width: 50%;
+    width: 25%;
 }
 .fProduct > button{
     width: 95%;
