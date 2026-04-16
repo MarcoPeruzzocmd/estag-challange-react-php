@@ -1,5 +1,6 @@
 import './styles/HistoryTable.css'
 import '../basics/styles/ProductTable.css';
+import { Link } from "react-router-dom";
 
 function HistoryTable({ details, onDetail }) {
   return (
@@ -20,9 +21,11 @@ function HistoryTable({ details, onDetail }) {
               <td>R$ {order.tax}</td>
               <td>R$ {order.total}</td>
               <td className="tdButton1">
+                <Link to="/detail">
                 <button className="detail1" onClick={() => onDetail(order.code)}>
                   Detail
                 </button>
+                </Link>
               </td>
             </tr>
           ))}
