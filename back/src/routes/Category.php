@@ -20,6 +20,8 @@ switch ($method) {
         echo json_encode($result);
         break;
     case 'DELETE':
+        $data = json_decode(file_get_contents('php://input'), true);
+        $code = $data['code'] ?? null;
         if (!isset($code)) {
             http_response_code(400);
             echo json_encode(['error' => 'Código obrigatório']);
