@@ -20,7 +20,7 @@ function Products() {
     try {
       const res = await deleteProduct(code);
       alert(JSON.stringify(res));
-      const filtered = products.filter((c) => c.code !== code);
+      const filtered = products.filter((p) => p.code !== code);
       setProducts(filtered);
     } catch (error) {
       console.error("Erro ao deletar:", error);

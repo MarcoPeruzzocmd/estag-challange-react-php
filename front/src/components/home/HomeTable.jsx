@@ -1,6 +1,13 @@
 import DataTable from "../basics/DataTable";
 import './styles/HomeTable.css'
-function HomeTable({ orders, onDelete }) {
+function HomeTable({ ordersItem, products, onDelete, categories }) {
+  const ordersWithProducts = ordersItem.map((oi) => {
+    const product = products.find((p) => p.code === Number(oi.product_code));
+    return {
+      ...oi,
+      product: product ? product.name : "—",
+    };
+  });
   return (
     <div style={{ flex: 1, borderLeft: "1px solid rgba(0, 0, 0, 0.5)" }}>
       <div className="containerTable">
@@ -13,7 +20,7 @@ function HomeTable({ orders, onDelete }) {
             { key: "tax",    label: "Tax",     className: "thTax",     id: "line1" },
             { key: "total",  label: "Total",   className: "thTotal",   id: "line2" },
           ]}
-          rows={orders}
+          rows={ordersWithProducts}
           onDelete={onDelete}
         />
       </div>

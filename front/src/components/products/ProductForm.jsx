@@ -1,6 +1,5 @@
 import "./styles/ProductForm.css";
 import { useState, useEffect } from "react";
-import { getCategories } from "../../services/categoryService";
 function ProductForm({ onAdd, categories }) {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");

@@ -19,6 +19,8 @@ switch ($method) {
         echo json_encode($result);
         break;
     case 'DELETE':
+        $data = json_decode(file_get_contents('php://input'), true);
+        $code = $data['code'] ?? null;
         if (isset($code)) {
             $result = $orderItemController->deleteOrderItem($code);
             echo json_encode($result);
