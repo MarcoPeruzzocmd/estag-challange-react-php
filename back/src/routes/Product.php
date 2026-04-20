@@ -18,13 +18,18 @@ switch ($method) {
         break;
     case 'POST':
         $data = json_decode(file_get_contents('php://input'), true);
-        $productController->createProduct(
+        $result = $productController->createProduct(
             $data['name'] ?? '',
             $data['amount'] ?? '',
             $data['price'] ?? '',
             $data['category_code'] ?? ''
         );
-        echo json_encode(['success' => 'Produto criado']);
+        if (isset($result['error'])) {
+            http_response_code(400);
+        } else {
+            http_response_code(201);
+        }
+        echo json_encode($result);
         break;
     case 'DELETE':
         $data = json_decode(file_get_contents('php://input'), true);
@@ -34,8 +39,11 @@ switch ($method) {
             echo json_encode(['error' => 'Código obrigatório']);
             break;
         }
-        $productController->deleteProduct(($code));
-        echo json_encode(['success' => 'Produto deletado']);
+        $result = $productController->deleteProduct($code);
+        if (isset($result['error'])) {
+            http_response_code(400);
+        }
+        echo json_encode($result);
         break;
     default:
         http_response_code(405);

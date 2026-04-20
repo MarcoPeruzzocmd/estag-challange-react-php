@@ -8,14 +8,14 @@ class CategoryController
     {
         $this->category = new Category($myPDO);
         $this->myPDO = $myPDO;
-    }   
+    }
     public function indexCategories()
     {
         return $this->category->getCategories();
     }
     public function createCategory($category, $tax)
     {
-        if (!preg_match('/^[a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ0-9\s]*$/', $category)){
+        if (!preg_match('/^[a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ0-9\s]*$/', $category)) {
             return ['error' => 'O primeiro caractere precisa obrigatoriamente ser uma letra.'];
         }
         if (empty($category)) {
@@ -45,13 +45,11 @@ class CategoryController
         $statement = $this->myPDO->prepare($sql);
         $statement->execute([$code]);
         $products = $statement->fetchAll(PDO::FETCH_ASSOC);
-        
         if (!empty($products)) {
-            echo "<script>alert('Essa categoria não pode ser deletada, pois existem produtos associados a ela.');</script>";
-            return;
+            return ['error' => 'Essa categoria não pode ser deletada, pois existem produtos associados a ela.'];
         }
-        
         $this->category->deleteCategory($code);
+        return ['success' => 'Categoria deletada'];
     }
     public function existCategory($category)
     {

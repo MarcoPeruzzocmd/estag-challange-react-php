@@ -19,7 +19,10 @@ function Products() {
   async function handleDelete(code) {
     try {
       const res = await deleteProduct(code);
-      alert(JSON.stringify(res));
+      if (res.error) {
+        alert(res.error);
+        return;
+      }
       const filtered = products.filter((p) => p.code !== code);
       setProducts(filtered);
     } catch (error) {
@@ -27,13 +30,21 @@ function Products() {
     }
   }
   async function handleAdd(product) {
-    await createProducts(product);
-    const updated = await getProducts();
-    setProducts(updated);
+    try {
+      const res = await createProducts(product);
+      if (res.error) {
+        alert(res.error);
+        return;
+      }
+      const updated = await getProducts();
+      setProducts(updated);
+    } catch (error) {
+      console.error("Erro ao adicionar:", error);
+    }
   }
   return (
     <div className="container">
-      <ProductForm onAdd={handleAdd} categories={categories}/>
+      <ProductForm onAdd={handleAdd} categories={categories} />
       <ProductTable
         products={products}
         categories={categories}

@@ -27,9 +27,13 @@ switch ($method) {
             echo json_encode(['error' => 'Código obrigatório']);
             break;
         }
-        $categoryController->deleteCategory($code);
-        echo json_encode(['success' => 'Categoria deletada']);
+        $result = $categoryController->deleteCategory($code);
+        if (isset($result['error'])) {
+            http_response_code(400);
+        }
+        echo json_encode($result);
         break;
+
     default:
         http_response_code(405);
         echo json_encode(['error' => 'Método não permitido']);

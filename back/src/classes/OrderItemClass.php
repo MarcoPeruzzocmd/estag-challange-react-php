@@ -24,11 +24,9 @@ class OrderItem
         $product = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($product['amount'] < $amount) {
-            echo json_encode([
-                'error' => "Estoque insuficiente para {$product['name']}. Disponível: {$product['amount']}."
-            ]);
-            return;
+            return ['error' => "Estoque insuficiente para {$product['name']}. Disponível: {$product['amount']}."];
         }
+
 
         $sql = "SELECT price FROM products WHERE code = ?";
         $statement = $this->myPDO->prepare($sql);
@@ -44,6 +42,7 @@ class OrderItem
         $this->myPDO->prepare($sql)->execute([$display_code, $productCode, $amount, $price, $tax]);
 
         $this->decrementAmount($productCode, $amount);
+        return ['success' => true];
     }
     public function getNextDisplayCode()
     {

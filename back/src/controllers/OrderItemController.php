@@ -58,7 +58,10 @@ class OrderItemController
             return ['success' => true];
         }
 
-        $this->OrderItem->createOrder($productCode, $amount);
+        $result = $this->OrderItem->createOrder($productCode, $amount);
+        if (isset($result['error'])) {
+            return $result;
+        }
         return ['success' => true];
     }
     public function deleteOrderItem($code)

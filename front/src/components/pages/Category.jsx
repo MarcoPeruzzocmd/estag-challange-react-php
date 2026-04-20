@@ -12,7 +12,10 @@ function Category() {
   async function handleDelete(code) {
   try {
     const res = await deleteCategory(code)
-    alert(JSON.stringify(res))
+    if (res.error){
+      alert(res.error)
+      return
+    }
     const filtered = categories.filter((c) => c.code !== code);
     setCategories(filtered);
   } catch (error) {
@@ -20,9 +23,17 @@ function Category() {
   }
 }
 async function handleAdd(category) {
-  await createCategory(category)
-  const updated = await getCategories()
-  setCategories(updated)
+  try {
+    const res = await createCategory(category)
+    if (res.error) {
+      alert(res.error)
+      return
+    }
+    const updated = await getCategories()
+    setCategories(updated)
+  } catch (error) {
+    console.error("Erro ao adicionar:", error)
+  }
 }
   return (
     <>
