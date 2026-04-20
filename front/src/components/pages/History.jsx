@@ -13,4 +13,3 @@ function History() {
   );
 }
 export default History;
-// onDetail={viewDetail}
