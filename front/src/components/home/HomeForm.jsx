@@ -12,16 +12,17 @@ const selectedCategory = categories.find(
   (c) => c.code == selectedProduct?.category_code)
 
 function handleSubmit(e) {
-  e.preventDefault();
+  e.preventDefault()
+  if (!selectedProduct || !amount || amount <= 0) return  // ← só validação mínima de UI
   const orderItem = {
     product_code: selectedProduct.code,
     amount: amount,
     price: selectedProduct.price,
-    tax: selectedCategory?.tax || 0
-  };
-  onAdd(orderItem);
-  setProductCode("");
-  setAmount("");
+    tax: selectedCategory?.tax || 0,
+  }
+  onAdd(orderItem)
+  setProductCode("")
+  setAmount("")
 }
   return (
     <>

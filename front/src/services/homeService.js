@@ -7,11 +7,11 @@ export async function getOrderItem() {
 
 export async function createOrderItem(order) {
   const res = await fetch(`${BASE_URL}/orderItem`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(order),
-  });
-  return res.json();
+  })
+  return res.json()
 }
 
 export async function deleteOrderItem(code) {
@@ -22,4 +22,20 @@ export async function deleteOrderItem(code) {
   });
     return res.json()
 
+}
+
+export async function finishOrderItem() {
+  const res = await fetch(`${BASE_URL}/order`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  });
+    return res.json()
+}
+
+export async function cancelOrderItem(params) {
+  const res = await fetch(`${BASE_URL}/orderItem`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  });
+  return res.json();
 }

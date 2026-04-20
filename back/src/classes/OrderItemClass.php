@@ -1,5 +1,5 @@
 <?php
-ob_start(); 
+ob_start();
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -24,7 +24,10 @@ class OrderItem
         $product = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($product['amount'] < $amount) {
-            $_SESSION['error'] = "Estoque insuficiente para {$product['name']}. Disponível: {$product['amount']}.";
+            echo json_encode([
+                'error' => "Estoque insuficiente para {$product['name']}. Disponível: {$product['amount']}."
+            ]);
+            return;
         }
 
         $sql = "SELECT price FROM products WHERE code = ?";
@@ -42,7 +45,8 @@ class OrderItem
 
         $this->decrementAmount($productCode, $amount);
     }
-    public function getNextDisplayCode(){
+    public function getNextDisplayCode()
+    {
         $sql =  "SELECT MAX(display_code) FROM order_item";
         $statement = $this->myPDO->query($sql);
         $max = $statement->fetchColumn();
@@ -97,13 +101,13 @@ class OrderItem
         $sql = "UPDATE order_item SET order_code = ? WHERE order_code IS NULL";
         $this->myPDO->prepare($sql)->execute([$orderCode]);
         return ['success' => 'Pedido finalizado', 'order_code' => $orderCode];
-
     }
-    public function cancelOrder(){
+    public function cancelOrder()
+    {
         $sql =  "SELECT product_code, amount FROM order_item WHERE order_code IS NULL";
         $statement = $this->myPDO->query($sql);
         $orderItems = $statement->fetchAll(PDO::FETCH_ASSOC);
-        foreach($orderItems as $item){
+        foreach ($orderItems as $item) {
             $sql = "UPDATE products SET amount = amount + ? WHERE code = ?";
             $this->myPDO->prepare($sql)->execute([$item['amount'], $item['product_code']]);
         }

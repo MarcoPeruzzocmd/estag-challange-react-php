@@ -1,5 +1,5 @@
 <?php
-ob_start(); 
+ob_start();
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -34,9 +34,8 @@ class OrderItemController
     public function createOrderItem($productCode, $amount)
     {
         if (empty($productCode) || empty($amount)) {
-            return 'Preencha todos os campos antes de adicionar ao carrinho.';
+            return ['error' => 'Preencha todos os campos antes de adicionar ao carrinho.'];
         }
-
         $existingOrderItem = $this->existingOrderItem($productCode);
         $product = $this->productController->getProductByCode($productCode);
         $taxPercent = $this->productController->getTaxByProductCode($productCode);
@@ -44,9 +43,8 @@ class OrderItemController
         $tax = $price * ($taxPercent / 100);
 
         if ($existingOrderItem) {
-
             if ($product['amount'] < $amount) {
-                return "Estoque insuficiente. Disponível: {$product['amount']}.";
+                return ['error' => "Estoque insuficiente. Disponível: {$product['amount']}."];
             }
             $newAmount = $existingOrderItem['amount'] + $amount;
             $newPrice = $existingOrderItem['price'] + ($price * $amount);
@@ -57,9 +55,11 @@ class OrderItemController
 
             $sql = "UPDATE products SET amount = amount - ? WHERE code = ?";
             $this->OrderItem->getPDO()->prepare($sql)->execute([$amount, $productCode]);
+            return ['success' => true];
         }
 
         $this->OrderItem->createOrder($productCode, $amount);
+        return ['success' => true];
     }
     public function deleteOrderItem($code)
     {
