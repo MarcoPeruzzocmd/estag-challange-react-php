@@ -2,7 +2,7 @@ import './styles/HistoryTable.css'
 import '../basics/styles/ProductTable.css';
 import { Link } from "react-router-dom";
 
-function HistoryTable({ details, onDetail }) {
+function HistoryTable({ orders }) {
   return (
     <div className="tableHistory">
       <table>
@@ -15,14 +15,14 @@ function HistoryTable({ details, onDetail }) {
           </tr>
         </thead>
         <tbody>
-          {details.map((order) => (
+          {orders.map((order) => (
             <tr key={order.code} className="product1">
               <td>{order.code}</td>
               <td>R$ {order.tax}</td>
               <td>R$ {order.total}</td>
               <td className="tdButton1">
-                <Link to="/detail">
-                <button className="detail1" onClick={() => onDetail(order.code)}>
+                <Link to={`/detail/${order.code}`}>
+                <button className="detail1">
                   Detail
                 </button>
                 </Link>

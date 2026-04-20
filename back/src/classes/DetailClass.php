@@ -6,7 +6,7 @@ class Detail {
         $this->myPDO = $myPDO;
     }
     public function viewDetail ($code){
-        $sql = "SELECT o.code, p.name as product_name, c.name as category_name, oi.amount, p.price, oi.tax, oi.price, o.data_compra, o.hora_compra FROM orders o
+        $sql = "SELECT o.code, p.name as product_name, c.name as category_name, oi.amount, p.price, oi.tax, oi.price + oi.tax as price_total, o.data_compra, o.hora_compra FROM orders o
         INNER JOIN order_item oi ON oi.order_code = o.code
         INNER JOIN products p ON p.code = oi.product_code
         INNER JOIN categories c ON c.code = p.category_code
