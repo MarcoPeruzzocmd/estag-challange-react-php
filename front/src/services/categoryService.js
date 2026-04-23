@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost/api/index.php";
+const BASE_URL = "http://localhost";
 
 export async function getCategories() {
   const res = await fetch(`${BASE_URL}/category`);

@@ -17,8 +17,8 @@ require_once  '../controllers/OrdersController.php';
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $segments = explode('/', trim($uri, '/'));
-$resource = strtolower($segments[2] ?? null);
-$code = $segments[3] ?? null;
+$resource = strtolower($segments[0] ?? null);
+$code = $segments[1] ?? null;
 $method = $_SERVER['REQUEST_METHOD'];
 switch ($resource) {
     case 'orderitem':
