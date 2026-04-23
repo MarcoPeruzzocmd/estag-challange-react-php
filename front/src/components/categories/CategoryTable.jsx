@@ -5,7 +5,7 @@ function CategoryTable({ categories, onDelete }) {
     <div style={{ flex: 1, borderLeft: '1px solid rgba(0, 0, 0, 0.5)', }}>
         <div className="containerTable">
             <DataTable columns={[
-            { key: "code", label: "Code", className: "thCode" },
+            { key: "display_code", label: "Code", className: "thCode" },
             {
               key: "name",
               label: "Category",

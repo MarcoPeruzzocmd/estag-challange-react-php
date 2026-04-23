@@ -14,7 +14,7 @@ function ProductTable({ products, categories, onDelete }) {
       <div className="containerTable">
         <DataTable
           columns={[
-            { key: "code", label: "Code", className: "thCode" },
+            { key: "display_code", label: "Code", className: "thCode" },
             {
               key: "name",
               label: "Product",

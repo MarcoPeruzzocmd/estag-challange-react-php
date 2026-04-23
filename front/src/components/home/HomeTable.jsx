@@ -15,7 +15,7 @@ function HomeTable({ ordersItem, products, onDelete, categories, onFinish, onCan
       <div className="containerTable">
         <DataTable
           columns={[
-            { key: "code",   label: "Code",    className: "thCode" },
+            { key: "display_code",   label: "Code",    className: "thCode" },
             { key: "name",   label: "Product", className: "thProduct", id: "line1" },
             { key: "price",  label: "Price",   className: "thPrice",   id: "line1" },
             { key: "amount", label: "Amount",  className: "thAmount",  id: "line1" },
