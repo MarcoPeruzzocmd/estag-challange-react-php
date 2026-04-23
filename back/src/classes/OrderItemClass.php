@@ -18,31 +18,38 @@ class OrderItem
     }
     public function createOrder($productCode, $amount)
     {
-        $sql = "SELECT amount, name FROM products WHERE code = ?";
-        $statement = $this->myPDO->prepare($sql);
-        $statement->execute([$productCode]);
-        $product = $statement->fetch(PDO::FETCH_ASSOC);
-
-        if ($product['amount'] < $amount) {
-            return ['error' => "Estoque insuficiente para {$product['name']}. Disponível: {$product['amount']}."];
+        $this->myPDO->beginTransaction();
+        try {
+            $sql = "SELECT amount, name FROM products WHERE code = ?";
+            $statement = $this->myPDO->prepare($sql);
+            $statement->execute([$productCode]);
+            $product = $statement->fetch(PDO::FETCH_ASSOC);
+    
+            if ($product['amount'] < $amount) {
+                return ['error' => "Estoque insuficiente para {$product['name']}. Disponível: {$product['amount']}."];
+            }
+    
+            $sql = "SELECT price FROM products WHERE code = ?";
+            $statement = $this->myPDO->prepare($sql);
+            $statement->execute([$productCode]);
+            $price = $statement->fetch(PDO::FETCH_ASSOC)['price'] * $amount;
+    
+            $sql = "SELECT tax FROM categories WHERE code = (SELECT category_code FROM products WHERE code = ?)";
+            $statement = $this->myPDO->prepare($sql);
+            $statement->execute([$productCode]);
+            $tax = $price * ($statement->fetch(PDO::FETCH_ASSOC)['tax'] / 100);
+            $display_code = $this->getNextDisplayCode();
+            $sql = "INSERT INTO order_item (display_code, product_code, amount, price, tax) VALUES (?,?,?,?,?)";
+            $this->myPDO->prepare($sql)->execute([$display_code, $productCode, $amount, $price, $tax]);
+    
+            $this->decrementAmount($productCode, $amount);
+            $this->myPDO->commit();
+            return ['success' => true];
+            
+        } catch (\Throwable $e) {
+            $this->myPDO->rollBack();
+            throw $e;
         }
-
-
-        $sql = "SELECT price FROM products WHERE code = ?";
-        $statement = $this->myPDO->prepare($sql);
-        $statement->execute([$productCode]);
-        $price = $statement->fetch(PDO::FETCH_ASSOC)['price'] * $amount;
-
-        $sql = "SELECT tax FROM categories WHERE code = (SELECT category_code FROM products WHERE code = ?)";
-        $statement = $this->myPDO->prepare($sql);
-        $statement->execute([$productCode]);
-        $tax = $price * ($statement->fetch(PDO::FETCH_ASSOC)['tax'] / 100);
-        $display_code = $this->getNextDisplayCode();
-        $sql = "INSERT INTO order_item (display_code, product_code, amount, price, tax) VALUES (?,?,?,?,?)";
-        $this->myPDO->prepare($sql)->execute([$display_code, $productCode, $amount, $price, $tax]);
-
-        $this->decrementAmount($productCode, $amount);
-        return ['success' => true];
     }
     public function getNextDisplayCode()
     {
@@ -69,6 +76,7 @@ class OrderItem
         }
         $sql = "DELETE FROM order_item WHERE code = ?";
         $this->myPDO->prepare($sql)->execute([$code]);
+        return ['success' => 'Item removido do carrinho'];
     }
     public function calculateTotalAndTax()
     {
@@ -89,27 +97,41 @@ class OrderItem
     public function finishOrder()
     {
         if (empty($this->getOrders())) {
-            return ['error' => 'O carrinho está vazio'];
+                return ['error' => 'O carrinho está vazio'];
+            }
+        $this->myPDO->beginTransaction();
+        try {
+            $sql = "INSERT INTO orders (total, tax, data_compra, hora_compra) VALUES (?, ?, ?, ?) RETURNING code";
+            $totals = $this->calculateTotalAndTax();
+            $statement = $this->myPDO->prepare($sql);
+            $statement->execute([$totals['totalPrice'], $totals['totalTax'], date('Y-m-d'), date('H:i:s')]);
+            $orderCode = $statement->fetch(PDO::FETCH_ASSOC)['code'];
+            $sql = "UPDATE order_item SET order_code = ? WHERE order_code IS NULL";
+            $this->myPDO->prepare($sql)->execute([$orderCode]);
+            $this->myPDO->commit();
+            return ['success' => 'Pedido finalizado', 'order_code' => $orderCode];
+        } catch (\Throwable $e) {
+            $this->myPDO->rollBack();
+            throw $e;
         }
-        $sql = "INSERT INTO orders (total, tax, data_compra, hora_compra) VALUES (?, ?, ?, ?) RETURNING code";
-        $totals = $this->calculateTotalAndTax();
-        $statement = $this->myPDO->prepare($sql);
-        $statement->execute([$totals['totalPrice'], $totals['totalTax'], date('Y-m-d'), date('H:i:s')]);
-        $orderCode = $statement->fetch(PDO::FETCH_ASSOC)['code'];
-        $sql = "UPDATE order_item SET order_code = ? WHERE order_code IS NULL";
-        $this->myPDO->prepare($sql)->execute([$orderCode]);
-        return ['success' => 'Pedido finalizado', 'order_code' => $orderCode];
     }
     public function cancelOrder()
     {
-        $sql =  "SELECT product_code, amount FROM order_item WHERE order_code IS NULL";
-        $statement = $this->myPDO->query($sql);
-        $orderItems = $statement->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($orderItems as $item) {
-            $sql = "UPDATE products SET amount = amount + ? WHERE code = ?";
-            $this->myPDO->prepare($sql)->execute([$item['amount'], $item['product_code']]);
+        $this->myPDO->beginTransaction();
+        try {
+            $sql =  "SELECT product_code, amount FROM order_item WHERE order_code IS NULL";
+            $statement = $this->myPDO->query($sql);
+            $orderItems = $statement->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($orderItems as $item) {
+                $sql = "UPDATE products SET amount = amount + ? WHERE code = ?";
+                $this->myPDO->prepare($sql)->execute([$item['amount'], $item['product_code']]);
+            }
+            $sql = "DELETE FROM order_item WHERE order_code IS NULL";
+            $this->myPDO->prepare($sql)->execute();
+            $this->myPDO->commit();
+        } catch (\Throwable $e) {
+            $this->myPDO->rollBack();
+            throw $e;
         }
-        $sql = "DELETE FROM order_item WHERE order_code IS NULL";
-        $this->myPDO->prepare($sql)->execute();
     }
 }
