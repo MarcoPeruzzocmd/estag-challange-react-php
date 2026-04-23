@@ -1,4 +1,6 @@
 import "./styles/ProductTable.css";
+import ProtectedTbody from "./ProtectedTbody";
+
 function DataTable({ columns, rows, onDelete }) {
   return (
       <form action="" className="tableProduct" >
@@ -14,7 +16,7 @@ function DataTable({ columns, rows, onDelete }) {
                 <th className="thActions">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <ProtectedTbody>
               {rows.map((row) => (
                 <tr key={row.code} className="product1">
                   {columns.map((col) => (
@@ -36,7 +38,7 @@ function DataTable({ columns, rows, onDelete }) {
                   </td>
                 </tr>
               ))}
-            </tbody>
+            </ProtectedTbody>
           </table>
         </div>
       </form>

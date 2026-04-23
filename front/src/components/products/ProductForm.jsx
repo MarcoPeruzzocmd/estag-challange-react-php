@@ -1,11 +1,14 @@
 import "./styles/ProductForm.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import ProtectedInput from "../basics/ProtectedInput";
+import ProtectedSelect from "../basics/ProtectedSelect";
+
 function ProductForm({ onAdd, categories }) {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [price, setPrice] = useState("");
   const [category_code, setCategoryCode] = useState("");
- 
+
   function handleSubmit(e) {
     e.preventDefault();
     onAdd({ name, amount, price, category_code });
@@ -14,17 +17,13 @@ function ProductForm({ onAdd, categories }) {
     setPrice("");
     setCategoryCode("");
   }
+
   return (
     <>
-      <form
-        action=""
-        method="post"
-        className="fProduct"
-        onSubmit={handleSubmit}
-      >
+      <form className="fProduct" onSubmit={handleSubmit}>
         <div className="inputCima">
-          <input
-            maxlength="30"
+          <ProtectedInput
+            maxLength="30"
             placeholder="Product name"
             type="text"
             name="product"
@@ -34,7 +33,7 @@ function ProductForm({ onAdd, categories }) {
           />
         </div>
         <div className="inputBaixo">
-          <input
+          <ProtectedInput
             placeholder="Amount"
             type="number"
             name="amount"
@@ -43,7 +42,7 @@ function ProductForm({ onAdd, categories }) {
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
-          <input
+          <ProtectedInput
             placeholder="Price"
             step="0.01"
             type="number"
@@ -53,13 +52,12 @@ function ProductForm({ onAdd, categories }) {
             value={price}
             onChange={(e) => setPrice(e.target.value)}
           />
-          <select
+          <ProtectedSelect
             name="category"
             id="select"
             className="categoryInput"
             value={category_code}
             onChange={(e) => setCategoryCode(e.target.value)}
-            categories={categories}
           >
             <option value="">Selecione uma categoria</option>
             {categories.map((cat) => (
@@ -67,7 +65,7 @@ function ProductForm({ onAdd, categories }) {
                 {cat.name}
               </option>
             ))}
-          </select>
+          </ProtectedSelect>
         </div>
         <button type="submit" name="add" id="addBtn">
           Add Product
@@ -76,4 +74,5 @@ function ProductForm({ onAdd, categories }) {
     </>
   );
 }
+
 export default ProductForm;

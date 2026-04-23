@@ -1,4 +1,6 @@
 import "./styles/DetailTable.css";
+import ProtectedTbody from "../basics/ProtectedTbody";
+
 function DetailTable({ detail }) {
   return (
     <div className="tableBuy">
@@ -22,7 +24,7 @@ function DetailTable({ detail }) {
             Hour
           </th>
         </tr>
-        <tbody id="table">
+        <ProtectedTbody id="table">
           {detail.map((item) => (
             <tr key={item.code} className="product1">
               <td>{item.code}</td>
@@ -36,7 +38,7 @@ function DetailTable({ detail }) {
               <td>{item.hora_compra}</td>
             </tr>
           ))}
-        </tbody>
+        </ProtectedTbody>
       </table>
     </div>
   );

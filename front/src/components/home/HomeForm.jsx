@@ -1,83 +1,81 @@
 import "./styles/HomeForm.css";
-import { getProducts } from "../../services/productServices";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import ProtectedInput from "../basics/ProtectedInput";
+import ProtectedSelect from "../basics/ProtectedSelect";
 
-function HomeForm({onAdd, products, categories }) {
+function HomeForm({ onAdd, products, categories }) {
   const [product_code, setProductCode] = useState("");
   const [amount, setAmount] = useState("");
+
   const selectedProduct = products.find(
-  (p) => p.code == product_code
-);
+    (p) => p.code == product_code
+  );
 
-const selectedCategory = categories.find(
-  (c) => c.code == selectedProduct?.category_code)
+  const selectedCategory = categories.find(
+    (c) => c.code == selectedProduct?.category_code
+  );
 
-function handleSubmit(e) {
-  e.preventDefault()
-  if (!selectedProduct || !amount || amount <= 0) return
-  const orderItem = {
-    product_code: selectedProduct.code,
-    amount: amount,
-    price: selectedProduct.price,
-    tax: selectedCategory?.tax || 0,
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!selectedProduct || !amount || amount <= 0) return;
+    const orderItem = {
+      product_code: selectedProduct.code,
+      amount: amount,
+      price: selectedProduct.price,
+      tax: selectedCategory?.tax || 0,
+    };
+    onAdd(orderItem);
+    setProductCode("");
+    setAmount("");
   }
-  onAdd(orderItem)
-  setProductCode("")
-  setAmount("")
-}
+
   return (
     <>
-      <form action="" method="post" className="fProduct" onSubmit={handleSubmit}>
-        <div class="inputCima">
-          <select
+      <form className="fProduct" onSubmit={handleSubmit}>
+        <div className="inputCima">
+          <ProtectedSelect
             id="select"
-            placeholder="Product"
             value={product_code}
             onChange={(e) => setProductCode(e.target.value)}
           >
-            <option value="">Selecione uma categoria</option>
+            <option value="">Selecione um produto</option>
             {products.map((prod) => (
               <option key={prod.code} value={prod.code}>
                 {prod.name}
               </option>
             ))}
-          </select>
+          </ProtectedSelect>
         </div>
-        <div class="inputBaixo">
-          <input
+        <div className="inputBaixo">
+          <ProtectedInput
             type="number"
-            name=""
             id="amount"
             placeholder="Amount"
-            class="amountInput"
+            className="amountInput"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
-          <input
+          <ProtectedInput
             type="text"
-            name=""
             id="tax"
             disabled
             placeholder="Tax value"
-            class="taxInput"
+            className="taxInput"
             value={selectedCategory?.tax || ""}
           />
-          <input
+          <ProtectedInput
             type="text"
-            name=""
             id="price"
             disabled
             placeholder="Price"
-            class="priceInput"
-            value={selectedProduct?.price || ""}  
+            className="priceInput"
+            value={selectedProduct?.price || ""}
           />
         </div>
-
-        <button type="submit">
-          Add product
-        </button>
+        <button type="submit">Add product</button>
       </form>
     </>
   );
 }
+
 export default HomeForm;

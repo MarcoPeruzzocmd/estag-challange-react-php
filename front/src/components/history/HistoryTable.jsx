@@ -1,6 +1,7 @@
 import './styles/HistoryTable.css'
 import '../basics/styles/ProductTable.css';
 import { Link } from "react-router-dom";
+import ProtectedTbody from "../basics/ProtectedTbody";
 
 function HistoryTable({ orders }) {
   return (
@@ -14,7 +15,7 @@ function HistoryTable({ orders }) {
             <th className="thActions" id="line1">Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <ProtectedTbody>
           {orders.map((order) => (
             <tr key={order.code} className="product1">
               <td>{order.code}</td>
@@ -29,7 +30,7 @@ function HistoryTable({ orders }) {
               </td>
             </tr>
           ))}
-        </tbody>
+        </ProtectedTbody>
       </table>
     </div>
   )
