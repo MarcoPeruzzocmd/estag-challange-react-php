@@ -32,8 +32,8 @@ function handleSubmit(e) {
           <select
             id="select"
             placeholder="Product"
+            value={product_code}
             onChange={(e) => setProductCode(e.target.value)}
-            products={products}
           >
             <option value="">Selecione uma categoria</option>
             {products.map((prod) => (
