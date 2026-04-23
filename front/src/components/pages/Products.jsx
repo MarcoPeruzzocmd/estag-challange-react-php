@@ -18,28 +18,20 @@ function Products() {
 
   async function handleDelete(code) {
     try {
-      const res = await deleteProduct(code);
-      if (res.error) {
-        alert(res.error);
-        return;
-      }
+      await deleteProduct(code);
       const filtered = products.filter((p) => p.code !== code);
       setProducts(filtered);
     } catch (error) {
-      console.error("Erro ao deletar:", error);
+      alert(error.message);
     }
   }
   async function handleAdd(product) {
     try {
-      const res = await createProducts(product);
-      if (res.error) {
-        alert(res.error);
-        return;
-      }
+      await createProducts(product);
       const updated = await getProducts();
       setProducts(updated);
     } catch (error) {
-      console.error("Erro ao adicionar:", error);
+      alert(error.message);
     }
   }
   return (

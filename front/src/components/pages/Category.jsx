@@ -10,31 +10,23 @@ function Category() {
   }, [])
 
   async function handleDelete(code) {
-  try {
-    const res = await deleteCategory(code)
-    if (res.error){
-      alert(res.error)
-      return
+    try {
+      await deleteCategory(code);
+      const filtered = categories.filter((c) => c.code !== code);
+      setCategories(filtered);
+    } catch (error) {
+      alert(error.message);
     }
-    const filtered = categories.filter((c) => c.code !== code);
-    setCategories(filtered);
-  } catch (error) {
-    console.error("Erro ao deletar:", error);
   }
-}
-async function handleAdd(category) {
-  try {
-    const res = await createCategory(category)
-    if (res.error) {
-      alert(res.error)
-      return
+  async function handleAdd(category) {
+    try {
+      await createCategory(category);
+      const updated = await getCategories();
+      setCategories(updated);
+    } catch (error) {
+      alert(error.message);
     }
-    const updated = await getCategories()
-    setCategories(updated)
-  } catch (error) {
-    console.error("Erro ao adicionar:", error)
   }
-}
   return (
     <>
     <div className="container">

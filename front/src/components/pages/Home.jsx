@@ -25,34 +25,22 @@ function Home() {
 
   async function handleDelete(code) {
     try {
-      const res = await deleteOrderItem(code);
-      if (res.error) {
-        alert(res.error);
-        return;
-      }
+      await deleteOrderItem(code);
       const filtered = ordersItem.filter((oi) => oi.code !== code);
       setOrdersItem(filtered);
     } catch (error) {
-      console.error("Erro ao deletar:", error);
+      alert(error.message);
     }
   }
   async function handleAdd(orderItem) {
-  try {
-    const res = await createOrderItem(orderItem)
-    if (!res) {
-      console.error('PHP retornou null')
-      return
+    try {
+      await createOrderItem(orderItem);
+      const updated = await getOrderItem();
+      setOrdersItem(updated);
+    } catch (error) {
+      alert(error.message);
     }
-    if (res.error) {
-      alert(res.error) 
-      return
-    }
-    const updated = await getOrderItem()
-    setOrdersItem(updated)
-  } catch (error) {
-    console.error("Erro ao adicionar:", error)
   }
-}
   async function handleFinish() {
       if (window.confirm("Tem certeza que deseja finalizar o pedido?")) {
         await finishOrderItem();

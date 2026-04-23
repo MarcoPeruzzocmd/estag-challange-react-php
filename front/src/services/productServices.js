@@ -1,5 +1,5 @@
-const BASE_URL = "http://localhost";
 import { responseError } from "./errorResponse";
+const BASE_URL = "http://localhost";
 
 export async function getProducts() {
   const res = await fetch(`${BASE_URL}/product`);
