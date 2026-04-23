@@ -1,8 +1,10 @@
+import { responseError } from "./errorResponse";
+
 const BASE_URL = "http://localhost";
 
 export async function getOrderItem() {
   const res = await fetch(`${BASE_URL}/orderItem`);
-  return res.json();
+  return responseError(res)
 }
 
 export async function createOrderItem(order) {
@@ -11,7 +13,7 @@ export async function createOrderItem(order) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(order),
   })
-  return res.json()
+  return responseError(res)
 }
 
 export async function deleteOrderItem(code) {
@@ -20,7 +22,7 @@ export async function deleteOrderItem(code) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ code }),
   });
-    return res.json()
+    return responseError(res)
 
 }
 
@@ -29,7 +31,7 @@ export async function finishOrderItem() {
     method: "POST",
     headers: { "Content-Type": "application/json" },
   });
-    return res.json()
+    return responseError(res)
 }
 
 export async function cancelOrderItem(params) {
@@ -37,5 +39,5 @@ export async function cancelOrderItem(params) {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
   });
-  return res.json();
+  return responseError(res);
 }

@@ -1,8 +1,9 @@
 const BASE_URL = "http://localhost";
+import { responseError } from "./errorResponse";
 
 export async function getProducts() {
   const res = await fetch(`${BASE_URL}/product`);
-  return res.json();
+  return responseError(res)
 }
 
 export async function createProducts(product) {
@@ -11,7 +12,7 @@ export async function createProducts(product) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(product),
   });
-  return res.json();
+  return responseError(res);
 }
 
 export async function deleteProduct(code) {
@@ -20,6 +21,6 @@ export async function deleteProduct(code) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ code }),
   });
-    return res.json()
+    return responseError(res)
 
 }

@@ -1,8 +1,10 @@
+import { responseError } from "./errorResponse";
+
 const BASE_URL = "http://localhost";
 
 export async function getCategories() {
   const res = await fetch(`${BASE_URL}/category`);
-  return res.json();
+  return responseError(res)
 }
 
 export async function createCategory(product) {
@@ -11,7 +13,7 @@ export async function createCategory(product) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(product),
   });
-  return res.json();
+  return responseError(res)
 }
 
 export async function deleteCategory(code) {
@@ -20,6 +22,6 @@ export async function deleteCategory(code) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ code }),
   });
-    return res.json()
+    return responseError(res)
 
 }
