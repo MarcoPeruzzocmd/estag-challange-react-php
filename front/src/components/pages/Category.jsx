@@ -4,9 +4,10 @@ import { useState, useEffect } from "react";
 import { getCategories, deleteCategory, createCategory } from "../../services/categoryService";
 function Category() {
   const [categories, setCategories] = useState([]);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    getCategories().then(data => setCategories(data))
+    getCategories().then(data => setCategories(data)).catch(err => setError(err.message))
   }, [])
 
   async function handleDelete(code) {

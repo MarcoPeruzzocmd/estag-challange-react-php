@@ -54,11 +54,9 @@ class CategoryController
     public function existCategory($category)
     {
         $normalized = strtolower(preg_replace('/\s+/', ' ', trim($category)));
-        foreach ($this->category->getCategories() as $cat) {
-            $existingName = strtolower(preg_replace('/\s+/', ' ', trim($cat['name'])));
-            if ($existingName == $normalized) {
-                return true;
-            }
-        }
+        $sql = "SELECT COUNT(*) FROM categories WHERE LOWER(REGEXP_REPLACE(TRIM(name), '\s+', ' ', 'g')) = ?";
+        $statement = $this->myPDO->prepare($sql);
+        $statement->execute([$normalized]);
+        return $statement->fetchColumn() > 0;
     }
 }

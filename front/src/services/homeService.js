@@ -34,7 +34,7 @@ export async function finishOrderItem() {
     return responseError(res)
 }
 
-export async function cancelOrderItem(params) {
+export async function cancelOrderItem() {
   const res = await fetch(`${BASE_URL}/orderItem`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },

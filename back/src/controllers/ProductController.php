@@ -4,12 +4,10 @@ require_once __DIR__ . '/../controllers/CategoryController.php';
 class ProductController
 {
     private $product;
-    private $categoryController;
     private $myPDO;
     public function __construct($myPDO)
     {
         $this->product = new Product($myPDO);
-        $this->categoryController = new CategoryController($myPDO);
         $this->myPDO = $myPDO;
     }
     public function indexProducts()
@@ -63,34 +61,26 @@ class ProductController
     public function existProduct($name)
     {
         $normalized = strtolower(preg_replace('/\s+/', ' ', trim($name)));
-        foreach ($this->product->getProducts() as $prod) {
-            $existingName = strtolower(preg_replace('/\s+/', ' ', trim($prod['name'])));
-            if ($existingName == $normalized) {
-                return true;
-            }
-        }
+        $sql = "SELECT COUNT(*) FROM products WHERE LOWER(REGEXP_REPLACE(TRIM(name), '\s+', ' ', 'g')) = ?";
+        $statement = $this->myPDO->prepare($sql);
+        $statement->execute([$normalized]);
+        return $statement->fetchColumn() > 0;
     }
     public function getTaxByProductCode($code)
     {
-        $products = $this->indexProducts();
-        $categoryController = $this->categoryController->indexCategories();
-        foreach ($products as $product) {
-            if ($product['code'] == $code) {
-                foreach ($categoryController as $category) {
-                    if ($category['code'] == $product['category_code']) {
-                        return $category['tax'];
-                    }
-                }
-            }
-        }
+        $sql = "SELECT c.tax FROM categories c
+                INNER JOIN products p ON p.category_code = c.code
+                WHERE p.code = ?";
+        $statement = $this->myPDO->prepare($sql);
+        $statement->execute([$code]);
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['tax'] : null;
     }
     public function getProductByCode($code)
     {
-        $products = $this->indexProducts();
-        foreach ($products as $product) {
-            if ($product['code'] == $code) {
-                return $product;
-            }
-        }
+        $sql = "SELECT * FROM products WHERE code = ?";
+        $statement = $this->myPDO->prepare($sql);
+        $statement->execute([$code]);
+        return $statement->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 };

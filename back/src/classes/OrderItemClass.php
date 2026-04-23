@@ -18,17 +18,17 @@ class OrderItem
     }
     public function createOrder($productCode, $amount)
     {
+        $sql = "SELECT amount, name FROM products WHERE code = ?";
+        $statement = $this->myPDO->prepare($sql);
+        $statement->execute([$productCode]);
+        $product = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if ($product['amount'] < $amount) {
+            return ['error' => "Estoque insuficiente para {$product['name']}. Disponível: {$product['amount']}."];
+        }
+
         $this->myPDO->beginTransaction();
         try {
-            $sql = "SELECT amount, name FROM products WHERE code = ?";
-            $statement = $this->myPDO->prepare($sql);
-            $statement->execute([$productCode]);
-            $product = $statement->fetch(PDO::FETCH_ASSOC);
-    
-            if ($product['amount'] < $amount) {
-                return ['error' => "Estoque insuficiente para {$product['name']}. Disponível: {$product['amount']}."];
-            }
-    
             $sql = "SELECT price FROM products WHERE code = ?";
             $statement = $this->myPDO->prepare($sql);
             $statement->execute([$productCode]);
