@@ -26,7 +26,10 @@ function Home() {
   async function handleDelete(code) {
     try {
       const res = await deleteOrderItem(code);
-      alert(JSON.stringify(res));
+      if (res.error) {
+        alert(res.error);
+        return;
+      }
       const filtered = ordersItem.filter((oi) => oi.code !== code);
       setOrdersItem(filtered);
     } catch (error) {
