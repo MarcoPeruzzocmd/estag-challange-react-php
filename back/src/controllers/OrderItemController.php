@@ -46,16 +46,25 @@ class OrderItemController
             if ($product['amount'] < $amount) {
                 return ['error' => "Estoque insuficiente. Disponível: {$product['amount']}."];
             }
-            $newAmount = $existingOrderItem['amount'] + $amount;
-            $newPrice = $existingOrderItem['price'] + ($price * $amount);
-            $newTax = $existingOrderItem['tax'] + ($tax * $amount);
+            $pdo = $this->OrderItem->getPDO();
+            $pdo->beginTransaction();
+            try {
+                $newAmount = $existingOrderItem['amount'] + $amount;
+                $newPrice = $existingOrderItem['price'] + ($price * $amount);
+                $newTax = $existingOrderItem['tax'] + ($tax * $amount);
 
-            $sql = "UPDATE order_item SET amount = ?, price = ?, tax = ? WHERE code = ?";
-            $this->OrderItem->getPDO()->prepare($sql)->execute([$newAmount, $newPrice, $newTax, $existingOrderItem['code']]);
+                $sql = "UPDATE order_item SET amount = ?, price = ?, tax = ? WHERE code = ?";
+                $pdo->prepare($sql)->execute([$newAmount, $newPrice, $newTax, $existingOrderItem['code']]);
 
-            $sql = "UPDATE products SET amount = amount - ? WHERE code = ?";
-            $this->OrderItem->getPDO()->prepare($sql)->execute([$amount, $productCode]);
-            return ['success' => true];
+                $sql = "UPDATE products SET amount = amount - ? WHERE code = ?";
+                $pdo->prepare($sql)->execute([$amount, $productCode]);
+
+                $pdo->commit();
+                return ['success' => true];
+            } catch (\Throwable $e) {
+                $pdo->rollBack();
+                throw $e;
+            }
         }
 
         $result = $this->OrderItem->createOrder($productCode, $amount);

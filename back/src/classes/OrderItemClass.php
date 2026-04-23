@@ -66,17 +66,24 @@ class OrderItem
     }
     public function deleteOrderItem($code)
     {
-        $sql = "SELECT product_code, amount FROM order_item WHERE code = ?";
-        $statement = $this->myPDO->prepare($sql);
-        $statement->execute([$code]);
-        $orderItem = $statement->fetch(PDO::FETCH_ASSOC);
-        if ($orderItem) {
-            $sql = "UPDATE products SET amount = amount + ? WHERE code = ?";
-            $this->myPDO->prepare($sql)->execute([$orderItem['amount'], $orderItem['product_code']]);
+        $this->myPDO->beginTransaction();
+        try {
+            $sql = "SELECT product_code, amount FROM order_item WHERE code = ?";
+            $statement = $this->myPDO->prepare($sql);
+            $statement->execute([$code]);
+            $orderItem = $statement->fetch(PDO::FETCH_ASSOC);
+            if ($orderItem) {
+                $sql = "UPDATE products SET amount = amount + ? WHERE code = ?";
+                $this->myPDO->prepare($sql)->execute([$orderItem['amount'], $orderItem['product_code']]);
+            }
+            $sql = "DELETE FROM order_item WHERE code = ?";
+            $this->myPDO->prepare($sql)->execute([$code]);
+            $this->myPDO->commit();
+            return ['success' => 'Item removido do carrinho'];
+        } catch (\Throwable $e) {
+            $this->myPDO->rollBack();
+            throw $e;
         }
-        $sql = "DELETE FROM order_item WHERE code = ?";
-        $this->myPDO->prepare($sql)->execute([$code]);
-        return ['success' => 'Item removido do carrinho'];
     }
     public function calculateTotalAndTax()
     {
