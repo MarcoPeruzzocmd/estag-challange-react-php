@@ -23,11 +23,13 @@ switch ($method) {
         $code = $data['code'] ?? null;
         if (isset($code)) {
             $result = $orderItemController->deleteOrderItem($code);
-            echo json_encode($result);
         } else {
             $result = $orderItemController->cancelOrder();
-            echo json_encode($result);
         }
+        if (isset($result['error'])) {
+            http_response_code(400);
+        }
+        echo json_encode($result);
         break;
     default:
         http_response_code(405);

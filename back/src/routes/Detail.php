@@ -3,12 +3,20 @@ $detailController = new DetailController($myPDO);
 
 switch ($method) {
     case 'GET':
-        if (isset($code)) {
-            $result = $detailController->viewDetail($code);
-            if ($result) {
-                echo json_encode($result);
-            } else {
-                http_response_code(404);
-                echo json_encode(['error' => 'Produto não encontrado']);
-            }}
+        if (!isset($code)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Código obrigatório']);
+            break;
+        }
+        $result = $detailController->viewDetail($code);
+        if ($result) {
+            echo json_encode($result);
+        } else {
+            http_response_code(404);
+            echo json_encode(['error' => 'Pedido não encontrado']);
+        }
+        break;
+    default:
+        http_response_code(405);
+        echo json_encode(['error' => 'Método não permitido']);
 }

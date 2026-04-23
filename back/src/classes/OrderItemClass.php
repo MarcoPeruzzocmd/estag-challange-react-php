@@ -1,8 +1,4 @@
 <?php
-ob_start();
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 require_once __DIR__ . '/../connection.php';
 require_once __DIR__ . '/../controllers/ProductController.php';
 class OrderItem
@@ -136,6 +132,7 @@ class OrderItem
             $sql = "DELETE FROM order_item WHERE order_code IS NULL";
             $this->myPDO->prepare($sql)->execute();
             $this->myPDO->commit();
+            return ['success' => 'Pedido cancelado'];
         } catch (\Throwable $e) {
             $this->myPDO->rollBack();
             throw $e;

@@ -17,11 +17,10 @@ function HomeForm({ onAdd, products, categories }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!selectedProduct || !amount || amount <= 0) return;
     const orderItem = {
-      product_code: selectedProduct.code,
+      product_code: selectedProduct?.code || "",
       amount: amount,
-      price: selectedProduct.price,
+      price: selectedProduct?.price || 0,
       tax: selectedCategory?.tax || 0,
     };
     onAdd(orderItem);

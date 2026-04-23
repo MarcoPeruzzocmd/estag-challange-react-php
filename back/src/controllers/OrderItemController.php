@@ -1,8 +1,4 @@
 <?php
-ob_start();
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 require_once __DIR__ . '/../connection.php';
 require_once __DIR__ . '/../classes/OrderItemClass.php';
 require_once __DIR__ . '/../controllers/ProductController.php';
@@ -79,7 +75,7 @@ class OrderItemController
     }
     public function finishOrder()
     {
-        $this->OrderItem->finishOrder();
+        return $this->OrderItem->finishOrder();
     }
     public function calculateTotalAndTax()
     {

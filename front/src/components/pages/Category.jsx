@@ -4,10 +4,14 @@ import { useState, useEffect } from "react";
 import { getCategories, deleteCategory, createCategory } from "../../services/categoryService";
 function Category() {
   const [categories, setCategories] = useState([]);
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    getCategories().then(data => setCategories(data)).catch(err => setError(err.message))
+    getCategories()
+      .then(data => setCategories(data))
+      .catch(err => setError(err.message))
+      .finally(() => setLoading(false));
   }, [])
 
   async function handleDelete(code) {
@@ -28,6 +32,8 @@ function Category() {
       alert(error.message);
     }
   }
+  if (loading) return <p>Carregando...</p>;
+  if (error) return <p>Erro: {error}</p>;
   return (
     <>
     <div className="container">

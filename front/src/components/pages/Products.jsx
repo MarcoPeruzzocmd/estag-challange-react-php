@@ -10,10 +10,17 @@ import { getCategories } from "../../services/categoryService";
 function Products() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    getProducts().then((data) => setProducts(data));
-    getCategories().then(setCategories);
+    Promise.all([getProducts(), getCategories()])
+      .then(([productsData, categoriesData]) => {
+        setProducts(productsData);
+        setCategories(categoriesData);
+      })
+      .catch(err => setError(err.message))
+      .finally(() => setLoading(false));
   }, []);
 
   async function handleDelete(code) {
@@ -34,6 +41,8 @@ function Products() {
       alert(error.message);
     }
   }
+  if (loading) return <p>Carregando...</p>;
+  if (error) return <p>Erro: {error}</p>;
   return (
     <div className="container">
       <ProductForm onAdd={handleAdd} categories={categories} />

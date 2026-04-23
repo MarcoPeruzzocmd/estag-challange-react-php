@@ -7,11 +7,11 @@ export async function getCategories() {
   return responseError(res)
 }
 
-export async function createCategory(product) {
+export async function createCategory(category) {
   const res = await fetch(`${BASE_URL}/category`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(product),
+    body: JSON.stringify(category),
   });
   return responseError(res)
 }

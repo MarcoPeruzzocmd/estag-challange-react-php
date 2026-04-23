@@ -1,6 +1,7 @@
 import HomeForm from "../home/HomeForm";
 import HomeTable from "../home/HomeTable";
 import { useState, useEffect } from "react";
+import {useNavigate} from 'react-router-dom'
 import {
   getOrderItem,
   createOrderItem,
@@ -14,13 +15,21 @@ function Home() {
   const [ordersItem, setOrdersItem] = useState([]);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate()
 
   const productsInStock = products.filter((p) => p.amount > 0);
 
   useEffect(() => {
-    getOrderItem().then((data) => setOrdersItem(data));
-    getProducts().then(setProducts);
-    getCategories().then(setCategories);
+    Promise.all([getOrderItem(), getProducts(), getCategories()])
+      .then(([orderData, productsData, categoriesData]) => {
+        setOrdersItem(orderData);
+        setProducts(productsData);
+        setCategories(categoriesData);
+      })
+      .catch(err => setError(err.message))
+      .finally(() => setLoading(false));
   }, []);
 
   async function handleDelete(code) {
@@ -43,17 +52,27 @@ function Home() {
   }
   async function handleFinish() {
       if (window.confirm("Tem certeza que deseja finalizar o pedido?")) {
-        await finishOrderItem();
-        setOrdersItem([]);
-        window.location.href = "/history"
+        try {
+          await finishOrderItem();
+          setOrdersItem([]);
+          navigate('/history');
+        } catch (error) {
+          alert(error.message);
+        }
       }
     }
     async function handleCancel() {
       if (window.confirm("Tem certeza que deseja cancelar o pedido?")) {
-        await cancelOrderItem()
-        setOrdersItem([]);
+        try {
+          await cancelOrderItem();
+          setOrdersItem([]);
+        } catch (error) {
+          alert(error.message);
+        }
       }
     }
+  if (loading) return <p>Carregando...</p>;
+  if (error) return <p>Erro: {error}</p>;
   return (
     <div className="container">
       <HomeForm onAdd={handleAdd} products={productsInStock} categories={categories} />
