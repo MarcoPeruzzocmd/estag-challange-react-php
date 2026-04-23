@@ -54,6 +54,7 @@ function Home() {
       if (window.confirm("Tem certeza que deseja finalizar o pedido?")) {
         await finishOrderItem();
         setOrdersItem([]);
+        window.location.href = "/history"
       }
     }
     async function handleCancel() {
