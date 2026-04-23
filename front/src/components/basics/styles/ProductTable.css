@@ -43,6 +43,7 @@ th {
     left: 0;
     height: 60vh;
     border-left: 1px solid #C5C5C5;
+    pointer-events: none;
 }
 #line2::before {
     content: "";
@@ -52,8 +53,25 @@ th {
     height: 60vh;
     border-left: 1px solid #C5C5C5;
     border-right: 1px solid #C5C5C5;
+    pointer-events: none;
 }
 .tdButton1 {
     display: flex;
     align-items: center;
+}
+.delete1{
+    visibility: hidden;
+    background-color: #6A65FF;
+    border-radius: 3px;
+    border: none;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+    width: 70px;
+    height: 20px;
+}
+.product1:hover{
+    .delete1{
+        visibility: visible;
+    }
 }
