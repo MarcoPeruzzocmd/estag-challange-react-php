@@ -22,10 +22,8 @@ function HistoryTable({ orders }) {
               <td>R$ {order.tax}</td>
               <td>R$ {order.total}</td>
               <td className="tdButton1">
-                <Link to={`/detail/${order.code}`}>
-                <button className="detail1">
+                <Link to={`/detail/${order.code}`} className="detail1">
                   Detail
-                </button>
                 </Link>
               </td>
             </tr>

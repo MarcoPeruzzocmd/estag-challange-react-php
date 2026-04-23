@@ -7,24 +7,18 @@ function Nav() {
       <ul>
         <li>
           <Link to="/">
-            <a href="index.php">
-              <h1>Suite Store</h1>
-            </a>
+            <h1>Suite Store</h1>
           </Link>
         </li>
         <div className="links">
           <li>
-            <Link to="/products">
-              <a>Products</a>
-            </Link>
+            <Link to="/products">Products</Link>
           </li>
           <li>
-            <Link to="/categories">
-              <a>Categories</a>
-            </Link>
+            <Link to="/categories">Categories</Link>
           </li>
           <li>
-            <Link to="/history"><a>History</a></Link>
+            <Link to="/history">History</Link>
           </li>
         </div>
       </ul>
