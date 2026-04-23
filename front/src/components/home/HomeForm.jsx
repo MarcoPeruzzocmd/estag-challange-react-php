@@ -8,12 +8,13 @@ function HomeForm({onAdd, products, categories }) {
   const selectedProduct = products.find(
   (p) => p.code == product_code
 );
+
 const selectedCategory = categories.find(
   (c) => c.code == selectedProduct?.category_code)
 
 function handleSubmit(e) {
   e.preventDefault()
-  if (!selectedProduct || !amount || amount <= 0) return  // ← só validação mínima de UI
+  if (!selectedProduct || !amount || amount <= 0) return
   const orderItem = {
     product_code: selectedProduct.code,
     amount: amount,
@@ -26,7 +27,7 @@ function handleSubmit(e) {
 }
   return (
     <>
-      <form action="" method="post" class="fProduct" onSubmit={handleSubmit}>
+      <form action="" method="post" className="fProduct" onSubmit={handleSubmit}>
         <div class="inputCima">
           <select
             id="select"

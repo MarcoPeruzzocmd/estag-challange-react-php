@@ -15,6 +15,8 @@ function Home() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
+  const productsInStock = products.filter((p) => p.amount > 0);
+
   useEffect(() => {
     getOrderItem().then((data) => setOrdersItem(data));
     getProducts().then(setProducts);
@@ -62,7 +64,7 @@ function Home() {
     }
   return (
     <div className="container">
-      <HomeForm onAdd={handleAdd} products={products} categories={categories} />
+      <HomeForm onAdd={handleAdd} products={productsInStock} categories={categories} />
       <HomeTable
         ordersItem={ordersItem}
         products={products}

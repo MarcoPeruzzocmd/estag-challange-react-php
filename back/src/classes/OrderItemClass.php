@@ -89,8 +89,7 @@ class OrderItem
     public function finishOrder()
     {
         if (empty($this->getOrders())) {
-            echo "<script>alert('O carrinho está vazio.');</script>";
-            return;
+            return ['error' => 'O carrinho está vazio'];
         }
         $sql = "INSERT INTO orders (total, tax, data_compra, hora_compra) VALUES (?, ?, ?, ?) RETURNING code";
         $totals = $this->calculateTotalAndTax();
