@@ -3,9 +3,9 @@ import ProductTable from "../products/ProductTable";
 import { useState, useEffect } from "react";
 import {
   getProducts,
-  createProducts,
+  createProduct,
   deleteProduct,
-} from "../../services/productServices";
+} from "../../services/productService";
 import { getCategories } from "../../services/categoryService";
 function Products() {
   const [products, setProducts] = useState([]);
@@ -34,7 +34,7 @@ function Products() {
   }
   async function handleAdd(product) {
     try {
-      await createProducts(product);
+      await createProduct(product);
       const updated = await getProducts();
       setProducts(updated);
     } catch (error) {

@@ -6,7 +6,7 @@ export async function getProducts() {
   return responseError(res)
 }
 
-export async function createProducts(product) {
+export async function createProduct(product) {
   const res = await fetch(`${BASE_URL}/product`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

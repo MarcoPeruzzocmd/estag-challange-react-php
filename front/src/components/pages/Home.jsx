@@ -9,7 +9,7 @@ import {
   finishOrderItem,
   cancelOrderItem
 } from "../../services/homeService";
-import { getProducts } from "../../services/productServices";
+import { getProducts } from "../../services/productService";
 import { getCategories } from "../../services/categoryService";
 function Home() {
   const [ordersItem, setOrdersItem] = useState([]);
