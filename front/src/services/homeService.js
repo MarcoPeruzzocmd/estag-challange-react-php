@@ -1,6 +1,6 @@
 import { responseError } from "./errorResponse";
+import { BASE_URL } from "./config";
 
-const BASE_URL = "http://localhost";
 
 export async function getOrderItem() {
   const res = await fetch(`${BASE_URL}/orderItem`);

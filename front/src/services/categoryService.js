@@ -1,6 +1,5 @@
 import { responseError } from "./errorResponse";
-
-const BASE_URL = "http://localhost";
+import { BASE_URL } from "./config";
 
 export async function getCategories() {
   const res = await fetch(`${BASE_URL}/category`);
