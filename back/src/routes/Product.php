@@ -9,7 +9,7 @@ switch ($method) {
                 echo json_encode($product);
             } else {
                 http_response_code(404);
-                echo json_encode(['error' => 'Produto não encontrado']);
+                echo json_encode(['error' => 'Product not found']);
             }
         } else {
             $products = $productController->indexProducts();
@@ -36,7 +36,7 @@ switch ($method) {
         $code = $data['code'] ?? null;
         if (!isset($code)) {
             http_response_code(400);
-            echo json_encode(['error' => 'Código obrigatório']);
+            echo json_encode(['error' => 'Code is required']);
             break;
         }
         $result = $productController->deleteProduct($code);
@@ -47,5 +47,5 @@ switch ($method) {
         break;
     default:
         http_response_code(405);
-        echo json_encode(['error' => 'Método não permitido']);
+        echo json_encode(['error' => 'Method not allowed']);
 }

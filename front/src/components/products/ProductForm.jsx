@@ -58,7 +58,7 @@ function ProductForm({ onAdd, categories }) {
             value={category_code}
             onChange={(e) => setCategoryCode(e.target.value)}
           >
-            <option value="">Selecione uma categoria</option>
+            <option value="">Select a category</option>
             {categories.map((cat) => (
               <option key={cat.code} value={cat.code}>
                 {cat.name}

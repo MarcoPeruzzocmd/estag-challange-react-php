@@ -20,8 +20,6 @@ function HomeForm({ onAdd, products, categories }) {
     const orderItem = {
       product_code: selectedProduct?.code || "",
       amount: amount,
-      price: selectedProduct?.price || 0,
-      tax: selectedCategory?.tax || 0,
     };
     onAdd(orderItem);
     setProductCode("");
@@ -36,7 +34,7 @@ function HomeForm({ onAdd, products, categories }) {
             value={product_code}
             onChange={(e) => setProductCode(e.target.value)}
           >
-            <option value="">Selecione um produto</option>
+            <option value="">Select a product</option>
             {products.map((prod) => (
               <option key={prod.code} value={prod.code}>
                 {prod.name}

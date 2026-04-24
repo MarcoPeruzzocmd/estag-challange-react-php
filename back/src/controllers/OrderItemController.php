@@ -30,7 +30,7 @@ class OrderItemController
     public function createOrderItem($productCode, $amount)
     {
         if (empty($productCode) || empty($amount)) {
-            return ['error' => 'Preencha todos os campos antes de adicionar ao carrinho.'];
+            return ['error' => 'Please fill in all fields before adding to cart.'];
         }
         $existingOrderItem = $this->existingOrderItem($productCode);
         $product = $this->productController->getProductByCode($productCode);
@@ -40,7 +40,7 @@ class OrderItemController
 
         if ($existingOrderItem) {
             if ($product['amount'] < $amount) {
-                return ['error' => "Estoque insuficiente. Disponível: {$product['amount']}."];
+                return ['error' => "Insufficient stock. Available: {$product['amount']}."];
             }
             $pdo = $this->OrderItem->getPDO();
             $pdo->beginTransaction();

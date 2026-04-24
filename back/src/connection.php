@@ -10,7 +10,7 @@ try {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ]);
 } catch (PDOException $e) {
-    error_log('Falha na conexão com o banco: ' . $e->getMessage());
+    error_log('Database connection failed: ' . $e->getMessage());
     http_response_code(500);
-    exit('Erro interno do servidor.');
+    exit('Internal server error.');
 }

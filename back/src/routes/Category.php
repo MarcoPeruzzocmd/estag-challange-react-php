@@ -24,7 +24,7 @@ switch ($method) {
         $code = $data['code'] ?? null;
         if (!isset($code)) {
             http_response_code(400);
-            echo json_encode(['error' => 'Código obrigatório']);
+            echo json_encode(['error' => 'Code is required']);
             break;
         }
         $result = $categoryController->deleteCategory($code);
@@ -36,5 +36,5 @@ switch ($method) {
 
     default:
         http_response_code(405);
-        echo json_encode(['error' => 'Método não permitido']);
+        echo json_encode(['error' => 'Method not allowed']);
 }

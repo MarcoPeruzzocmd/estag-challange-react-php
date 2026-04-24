@@ -32,6 +32,7 @@ function DataTable({ columns, rows, onDelete }) {
                           onDelete(row.code);
                         }
                       }}
+                      type="button"
                     >
                       Delete
                     </button>

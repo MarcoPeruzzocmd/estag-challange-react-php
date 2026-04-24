@@ -19,7 +19,7 @@ class OrderItem
         $product = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($product['amount'] < $amount) {
-            return ['error' => "Estoque insuficiente para {$product['name']}. Disponível: {$product['amount']}."];
+            return ['error' => "Insufficient stock for {$product['name']}. Available: {$product['amount']}."];
         }
 
         $this->myPDO->beginTransaction();
@@ -74,7 +74,7 @@ class OrderItem
             $sql = "DELETE FROM order_item WHERE code = ?";
             $this->myPDO->prepare($sql)->execute([$code]);
             $this->myPDO->commit();
-            return ['success' => 'Item removido do carrinho'];
+            return ['success' => 'Item removed from cart'];
         } catch (\Throwable $e) {
             $this->myPDO->rollBack();
             throw $e;
@@ -99,7 +99,7 @@ class OrderItem
     public function finishOrder()
     {
         if (empty($this->getOrders())) {
-                return ['error' => 'O carrinho está vazio'];
+                return ['error' => 'Cart is empty'];
             }
         $this->myPDO->beginTransaction();
         try {
@@ -111,7 +111,7 @@ class OrderItem
             $sql = "UPDATE order_item SET order_code = ? WHERE order_code IS NULL";
             $this->myPDO->prepare($sql)->execute([$orderCode]);
             $this->myPDO->commit();
-            return ['success' => 'Pedido finalizado', 'order_code' => $orderCode];
+            return ['success' => 'Order completed', 'order_code' => $orderCode];
         } catch (\Throwable $e) {
             $this->myPDO->rollBack();
             throw $e;
@@ -131,7 +131,7 @@ class OrderItem
             $sql = "DELETE FROM order_item WHERE order_code IS NULL";
             $this->myPDO->prepare($sql)->execute();
             $this->myPDO->commit();
-            return ['success' => 'Pedido cancelado'];
+            return ['success' => 'Order cancelled'];
         } catch (\Throwable $e) {
             $this->myPDO->rollBack();
             throw $e;

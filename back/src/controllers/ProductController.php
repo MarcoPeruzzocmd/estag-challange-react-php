@@ -21,28 +21,28 @@ class ProductController
     public function createProduct($name, $amount, $price, $category)
     {
         if (!preg_match('/^[a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ0-9\s]*$/', $name)) {
-            return ['error' => 'O primeiro caractere precisa obrigatoriamente ser uma letra.'];
+            return ['error' => 'The first character must be a letter.'];
         }
         if (empty($name) || empty($amount) || empty($price) || empty($category)) {
-            return ['error' => 'Preencha todos os campos possíveis.'];
+            return ['error' => 'Please fill in all fields.'];
         }
         if ($amount > 100000) {
-            return ['error' => 'A quantidade do produto deve ser de no máximo 100000 unidades'];
+            return ['error' => 'Product quantity must be at most 100000 units'];
         }
         if (!is_numeric($amount) || $amount < 0) {
-            return ['error' => 'O campo de quantidade deve ser um número positivo'];
+            return ['error' => 'The quantity field must be a positive number'];
         }
         if (!is_numeric($price) || $price < 0) {
-            return ['error' => 'O campo de preço deve ser um número positivo'];
+            return ['error' => 'The price field must be a positive number'];
         }
         if (strlen($name) > 30) {
-            return ['error' => 'O nome do produto deve ter no máximo 30 caracteres.'];
+            return ['error' => 'Product name must be at most 30 characters.'];
         }
         if ($this->existProduct($name)) {
-            return ['error' => 'Esse produto já existe.'];
+            return ['error' => 'This product already exists.'];
         }
         $this->product->createProduct($name, $amount, $price, $category);
-        return ['success' => 'Produto criado com sucesso'];
+        return ['success' => 'Product created successfully'];
     }
 
     public function deleteProduct($code)
@@ -53,10 +53,10 @@ class ProductController
         $orderItems = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         if (!empty($orderItems)) {
-            return ['error' => 'Esse produto não pode ser deletado pois já está associado a um carrinho ou compra'];
+            return ['error' => 'This product cannot be deleted because it is associated with a cart or order'];
         }
         $this->product->deleteProduct($code);
-        return ['success' => 'Produto deletado'];
+        return ['success' => 'Product deleted'];
     }
     public function existProduct($name)
     {

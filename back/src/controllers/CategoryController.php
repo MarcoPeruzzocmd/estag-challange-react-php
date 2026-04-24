@@ -16,28 +16,28 @@ class CategoryController
     public function createCategory($category, $tax)
     {
         if (!preg_match('/^[a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ0-9\s]*$/', $category)) {
-            return ['error' => 'O primeiro caractere precisa obrigatoriamente ser uma letra.'];
+            return ['error' => 'The first character must be a letter.'];
         }
         if (empty($category)) {
-            return ['error' => 'Preencha o campo de categoria'];
+            return ['error' => 'Please fill in the category field'];
         }
         if ($tax === '' || $tax === null) {
-            return ['error' => 'Preencha o campo de taxa'];
+            return ['error' => 'Please fill in the tax field'];
         }
         if (!is_numeric($tax) || $tax < 0) {
-            return ['error' => 'O campo de imposto deve ser um número positivo'];
+            return ['error' => 'The tax field must be a positive number'];
         }
         if (strlen($category) > 30) {
-            return ['error' => 'O nome da categoria deve ter no máximo 30 caracteres'];
+            return ['error' => 'Category name must be at most 30 characters'];
         }
         if ($tax > 100) {
-            return ['error' => 'O valor de imposto deve ser de no máximo 100%'];
+            return ['error' => 'Tax value must be at most 100%'];
         }
         if ($this->existCategory($category)) {
-            return ['error' => 'Essa categoria já existe'];
+            return ['error' => 'This category already exists'];
         }
         $this->category->createCategory($category, $tax);
-        return ['success' => 'Categoria criada com sucesso'];
+        return ['success' => 'Category created successfully'];
     }
     public function deleteCategory($code)
     {
@@ -46,10 +46,10 @@ class CategoryController
         $statement->execute([$code]);
         $products = $statement->fetchAll(PDO::FETCH_ASSOC);
         if (!empty($products)) {
-            return ['error' => 'Essa categoria não pode ser deletada, pois existem produtos associados a ela.'];
+            return ['error' => 'This category cannot be deleted because it has associated products.'];
         }
         $this->category->deleteCategory($code);
-        return ['success' => 'Categoria deletada'];
+        return ['success' => 'Category deleted'];
     }
     public function existCategory($category)
     {
