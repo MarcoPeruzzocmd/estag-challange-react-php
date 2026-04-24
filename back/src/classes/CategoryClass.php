@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . '/../connection.php';
 class Category {
     private $myPDO;
     public function __construct($myPDO){

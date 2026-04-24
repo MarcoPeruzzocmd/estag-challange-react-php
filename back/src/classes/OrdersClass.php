@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . '/../connection.php';
 class Orders {
     private $myPDO;
     public function __construct($myPDO)
