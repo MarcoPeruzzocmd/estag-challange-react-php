@@ -16,9 +16,7 @@ function History() {
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>Erro: {error}</p>;
   return (
-    <>
       <HistoryTable orders={orders}  />
-    </>
   );
 }
 export default History;

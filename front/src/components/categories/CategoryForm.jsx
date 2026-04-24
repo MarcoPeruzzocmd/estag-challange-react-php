@@ -14,7 +14,6 @@ function CategoryForm({ onAdd }) {
   }
 
   return (
-    <>
       <form id="form" className="fProduct" onSubmit={handleSubmit}>
         <div className="addProduct" id="addProduct">
           <ProtectedInput
@@ -41,7 +40,6 @@ function CategoryForm({ onAdd }) {
           Add Category
         </button>
       </form>
-    </>
   );
 }
 

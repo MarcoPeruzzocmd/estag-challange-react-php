@@ -1,7 +1,6 @@
 import DataTable from "../basics/DataTable";
 function CategoryTable({ categories, onDelete }) {
     return(
-        <>
     <div style={{ flex: 1, borderLeft: '1px solid rgba(0, 0, 0, 0.5)', }}>
         <div className="containerTable">
             <DataTable columns={[
@@ -24,7 +23,6 @@ function CategoryTable({ categories, onDelete }) {
         />
         </div>
     </div>
-        </>
     )
 }
 export default CategoryTable

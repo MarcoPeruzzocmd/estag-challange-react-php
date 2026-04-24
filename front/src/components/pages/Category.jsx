@@ -35,12 +35,10 @@ function Category() {
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>Erro: {error}</p>;
   return (
-    <>
     <div className="container">
       <CategoryForm onAdd={handleAdd}/>
       <CategoryTable categories={categories} onDelete={handleDelete}/>
     </div>
-    </>
   );
 }
 export default Category;

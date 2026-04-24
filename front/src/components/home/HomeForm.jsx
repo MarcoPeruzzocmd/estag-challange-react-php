@@ -29,7 +29,6 @@ function HomeForm({ onAdd, products, categories }) {
   }
 
   return (
-    <>
       <form className="fProduct" onSubmit={handleSubmit}>
         <div className="inputCima">
           <ProtectedSelect
@@ -73,7 +72,6 @@ function HomeForm({ onAdd, products, categories }) {
         </div>
         <button type="submit">Add product</button>
       </form>
-    </>
   );
 }
 

@@ -19,7 +19,6 @@ function ProductForm({ onAdd, categories }) {
   }
 
   return (
-    <>
       <form className="fProduct" onSubmit={handleSubmit}>
         <div className="inputCima">
           <ProtectedInput
@@ -71,7 +70,6 @@ function ProductForm({ onAdd, categories }) {
           Add Product
         </button>
       </form>
-    </>
   );
 }
 

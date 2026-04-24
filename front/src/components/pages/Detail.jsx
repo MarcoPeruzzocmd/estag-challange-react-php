@@ -18,9 +18,7 @@ function Detail() {
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>Erro: {error}</p>;
   return (
-    <>
       <DetailTable detail={detail}/>
-    </>
   );
 }
 export default Detail;
