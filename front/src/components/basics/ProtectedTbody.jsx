@@ -36,7 +36,7 @@ function ProtectedTbody({ children, ...props }) {
       clearTimeout(timer);
       if (observer) observer.disconnect();
     };
-  });
+  }, [children]);
 
   return (
     <tbody ref={tbodyRef} {...props}>

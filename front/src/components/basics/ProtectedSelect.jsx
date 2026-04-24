@@ -44,7 +44,7 @@ function ProtectedSelect({ children, ...props }) {
       clearTimeout(timer);
       if (observer) observer.disconnect();
     };
-  });
+  }, [children]);
 
   return (
     <select ref={selectRef} {...props}>
