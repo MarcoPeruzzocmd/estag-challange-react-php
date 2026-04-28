@@ -10,17 +10,11 @@ function Nav() {
             <h1>Suite Store</h1>
           </Link>
         </li>
-        <div className="links">
-          <li>
-            <Link to="/products">Products</Link>
-          </li>
-          <li>
-            <Link to="/categories">Categories</Link>
-          </li>
-          <li>
-            <Link to="/history">History</Link>
-          </li>
-        </div>
+        <li className="links">
+          <Link to="/products">Products</Link>
+          <Link to="/categories">Categories</Link>
+          <Link to="/history">History</Link>
+        </li>
       </ul>
     </nav>
   );

@@ -13,21 +13,19 @@ class OrderItem
     }
     public function createOrder($productCode, $amount)
     {
-        $sql = "SELECT amount, name FROM products WHERE code = ?";
-        $statement = $this->myPDO->prepare($sql);
-        $statement->execute([$productCode]);
-        $product = $statement->fetch(PDO::FETCH_ASSOC);
-
-        if ($product['amount'] < $amount) {
-            return ['error' => "Insufficient stock for {$product['name']}. Available: {$product['amount']}."];
-        }
-
         $this->myPDO->beginTransaction();
         try {
-            $sql = "SELECT price FROM products WHERE code = ?";
+            $sql = "SELECT amount, name, price FROM products WHERE code = ? FOR UPDATE";
             $statement = $this->myPDO->prepare($sql);
             $statement->execute([$productCode]);
-            $price = $statement->fetch(PDO::FETCH_ASSOC)['price'] * $amount;
+            $product = $statement->fetch(PDO::FETCH_ASSOC);
+
+            if ($product['amount'] < $amount) {
+                $this->myPDO->rollBack();
+                return ['error' => "Insufficient stock for {$product['name']}. Available: {$product['amount']}."];
+            }
+
+            $price = $product['price'] * $amount;
     
             $sql = "SELECT tax FROM categories WHERE code = (SELECT category_code FROM products WHERE code = ?)";
             $statement = $this->myPDO->prepare($sql);

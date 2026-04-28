@@ -3,7 +3,7 @@ import ProtectedTbody from "./ProtectedTbody";
 
 function DataTable({ columns, rows, onDelete }) {
   return (
-      <form action="" className="tableProduct" >
+      <div className="tableProduct">
         <div className="containerTable">
           <table>
             <thead>
@@ -42,7 +42,7 @@ function DataTable({ columns, rows, onDelete }) {
             </ProtectedTbody>
           </table>
         </div>
-      </form>
+      </div>
   );
 }
 
